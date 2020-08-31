@@ -1,5 +1,5 @@
 # The Official raywenderlich.com Swift Style Guide.
-### Updated for Swift 4.2
+### Updated for Swift 5
 
 This style guide is different from others you may see, because the focus is centered on readability for print and the web. We created this style guide to keep the code in our books, tutorials, and starter kits nice and consistent — even though we have many different authors working on the books.
 
@@ -8,6 +8,7 @@ Our overarching goals are clarity, consistency and brevity, in that order.
 ## Table of Contents
 
 * [Correctness](#correctness)
+* [Using SwiftLint](#using-swiftlint)
 * [Naming](#naming)
   * [Prose](#prose)
   * [Delegates](#delegates)
@@ -38,7 +39,7 @@ Our overarching goals are clarity, consistency and brevity, in that order.
   * [Syntactic Sugar](#syntactic-sugar)
 * [Functions vs Methods](#functions-vs-methods)
 * [Memory Management](#memory-management)
-  * [Extending Lifetime](#extending-lifetime)
+  * [Extending Object Lifetime](#extending-object-lifetime)
 * [Access Control](#access-control)
 * [Control Flow](#control-flow)
   * [Ternary Operator](#ternary-operator)
@@ -48,6 +49,7 @@ Our overarching goals are clarity, consistency and brevity, in that order.
 * [Parentheses](#parentheses)
 * [Multi-line String Literals](#multi-line-string-literals)
 * [No Emoji](#no-emoji)
+* [No #imageLiteral or #colorLiteral](#no-imageliteral-or-colorliteral)
 * [Organization and Bundle Identifier](#organization-and-bundle-identifier)
 * [Copyright Statement](#copyright-statement)
 * [Smiley Face](#smiley-face)
@@ -58,14 +60,18 @@ Our overarching goals are clarity, consistency and brevity, in that order.
 
 Strive to make your code compile without warnings. This rule informs many style decisions such as using `#selector` types instead of string literals.
 
+## Using SwiftLint
+
+When writing for raywenderlich.com, you are strongly encouraged — and some teams may require — to use our SwiftLint configuration. See the [SwiftLint Policy](SWIFTLINT.markdown) for more information.
+
 ## Naming
 
 Descriptive and consistent naming makes software easier to read and understand. Use the Swift naming conventions described in the [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/). Some key takeaways include:
 
 - striving for clarity at the call site
 - prioritizing clarity over brevity
-- using camel case (not snake case)
-- using uppercase for types (and protocols), lowercase for everything else
+- using `camelCase` (not `snake_case`)
+- using `UpperCamelCase` for types and protocols, `lowerCamelCase` for everything else
 - including all needed words while omitting needless words
 - using names based on roles, not types
 - sometimes compensating for weak type information
@@ -106,7 +112,7 @@ For the above example using `UIGestureRecognizer`, 1 is unambiguous and preferre
 
 ### Class Prefixes
 
-Swift types are automatically namespaced by the module that contains them and you should not add a class prefix such as RW. If two names from different modules collide you can disambiguate by prefixing the type name with the module name. However, only specify the module name when there is possibility for confusion which should be rare.
+Swift types are automatically namespaced by the module that contains them and you should not add a class prefix such as RW. If two names from different modules collide you can disambiguate by prefixing the type name with the module name. However, only specify the module name when there is possibility for confusion, which should be rare.
 
 ```swift
 import SomeModule
@@ -309,7 +315,7 @@ else {
 }
 ```
 
-* There should be exactly one blank line between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but having too many sections in a method often means you should refactor into several methods.
+* There should be one blank line between methods and up to one blank line between type declarations to aid in visual clarity and organization. Whitespace within methods should separate functionality, but having too many sections in a method often means you should refactor into several methods.
 
 * There should be no blank lines after an opening brace or before a closing brace.
 
@@ -461,7 +467,8 @@ For functions with long signatures, put each parameter on a new line and add an 
 func reticulateSplines(
   spline: [Double], 
   adjustmentFactor: Double,
-  translateConstant: Int, comment: String
+  translateConstant: Int, 
+  comment: String
 ) -> Bool {
   // reticulate code goes here
 }
@@ -647,9 +654,10 @@ if let subview = subview, let volume = volume {
 }
 
 // another example
-UIView.animate(withDuration: 2.0) { [weak self] in
+resource.request().onComplete { [weak self] response in
   guard let self = self else { return }
-  self.alpha = 1.0
+  let model = self.updateModel(response)
+  self.updateUI(model)
 }
 ```
 
@@ -902,7 +910,6 @@ When coding with conditionals, the left-hand margin of the code should be the "g
 **Preferred**:
 ```swift
 func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
-
   guard let context = context else {
     throw FFTError.noContext
   }
@@ -918,7 +925,6 @@ func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies 
 **Not Preferred**:
 ```swift
 func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
-
   if let context = context {
     if let inputData = inputData {
       // use context and input to compute the frequencies
@@ -1052,6 +1058,10 @@ let message = "You cannot charge the flux " +
 
 Do not use emoji in your projects. For those readers who actually type in their code, it's an unnecessary source of friction. While it may be cute, it doesn't add to the learning and it interrupts the coding flow for these readers.
 
+## No #imageLiteral or #colorLiteral
+
+Likewise, do not use Xcode's ability to drag a color or an image into a source statement. These turn into #colorLiteral and #imageLiteral, respectively, and present unpleasant challenges for a reader trying to enter them based on tutorial text. Instead, use `UIColor(red:green:blue)` and `UIImage(imageLiteralResourceName:)`.
+
 ## Organization and Bundle Identifier
 
 Where an Xcode project is involved, the organization should be set to `Ray Wenderlich` and the Bundle Identifier set to `com.raywenderlich.TutorialName` where `TutorialName` is the name of the tutorial project.
@@ -1064,7 +1074,7 @@ The following copyright statement should be included at the top of every source
 file:
 
 ```swift
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2020 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -1084,6 +1094,10 @@ file:
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
 /// 
+/// This project and source code may use libraries or frameworks that are
+/// released under various Open-Source licenses. Use of those libraries and
+/// frameworks are governed by their own individual licenses.
+///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
