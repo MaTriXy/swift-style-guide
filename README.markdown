@@ -1,4 +1,4 @@
-# The Official raywenderlich.com Swift Style Guide.
+# The Official Kodeco Swift Style Guide.
 ### Updated for Swift 5
 
 This style guide is different from others you may see, because the focus is centered on readability for print and the web. We created this style guide to keep the code in our books, tutorials, and starter kits nice and consistent — even though we have many different authors working on the books.
@@ -62,7 +62,7 @@ Strive to make your code compile without warnings. This rule informs many style 
 
 ## Using SwiftLint
 
-When writing for raywenderlich.com, you are strongly encouraged — and some teams may require — to use our SwiftLint configuration. See the [SwiftLint Policy](SWIFTLINT.markdown) for more information.
+When writing for Kodeco, you are strongly encouraged — perhaps even required, depending on your team — to use our SwiftLint configuration. See the [SwiftLint Policy](SWIFTLINT.markdown) for more information.
 
 ## Naming
 
@@ -260,20 +260,20 @@ override func tableView(_ tableView: UITableView, numberOfRowsInSection section:
 Import only the modules a source file requires. For example, don't import `UIKit` when importing `Foundation` will suffice. Likewise, don't import `Foundation` if you must import `UIKit`.
 
 **Preferred**:
-```
+```swift
 import UIKit
 var view: UIView
 var deviceModels: [String]
 ```
 
 **Preferred**:
-```
+```swift
 import Foundation
 var deviceModels: [String]
 ```
 
 **Not Preferred**:
-```
+```swift
 import UIKit
 import Foundation
 var view: UIView
@@ -281,7 +281,7 @@ var deviceModels: [String]
 ```
 
 **Not Preferred**:
-```
+```swift
 import UIKit
 var deviceModels: [String]
 ```
@@ -318,6 +318,23 @@ else {
 * There should be one blank line between methods and up to one blank line between type declarations to aid in visual clarity and organization. Whitespace within methods should separate functionality, but having too many sections in a method often means you should refactor into several methods.
 
 * There should be no blank lines after an opening brace or before a closing brace.
+
+* Closing parentheses should not appear on a line by themselves.
+
+**Preferred**:
+```swift
+let user = try await getUser(
+  for: userID,
+  on: connection)
+```
+
+**Not Preferred**:
+```swift
+let user = try await getUser(
+  for: userID,
+  on: connection
+)
+```
 
 * Colons always have no space on the left and one space on the right. Exceptions are the ternary operator `? :`, empty dictionary `[:]` and `#selector` syntax `addTarget(_:action:)`.
 
@@ -637,6 +654,14 @@ Use optional binding when it's more convenient to unwrap once and perform multip
 if let textContainer = textContainer {
   // do many things with textContainer
 }
+
+```
+**Notes:** Swift 5.7 introduced new shorthand syntax for unwrapping optionals into shadowed variables:
+
+```swift
+if let textContainer {
+  // do many things with textContainer
+}
 ```
 
 When naming optional variables and properties, avoid naming them like `optionalString` or `maybeView` since their optional-ness is already in the type declaration.
@@ -939,7 +964,7 @@ func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies 
 }
 ```
 
-When multiple optionals are unwrapped either with `guard` or `if let`, minimize nesting by using the compound version when possible. In the compound version, place the `guard` on its own line, then indent each condition on its own line. The `else` clause is indented to match the conditions and the code is indented one additional level, as shown below. Example:
+When multiple optionals are unwrapped either with `guard` or `if let`, minimize nesting by using the compound version when possible. In the compound version, place the `guard` on its own line, then indent each condition on its own line. The `else` clause is indented to match the `guard` itself, as shown below. Example:
 
 **Preferred**:
 ```swift
@@ -947,8 +972,8 @@ guard
   let number1 = number1,
   let number2 = number2,
   let number3 = number3 
-  else {
-    fatalError("impossible")
+else {
+  fatalError("impossible")
 }
 // do something with numbers
 ```
@@ -990,7 +1015,7 @@ let swift = "not a scripting language"
 let swift = "not a scripting language";
 ```
 
-**NOTE**: Swift is very different from JavaScript, where omitting semicolons is [generally considered unsafe](http://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript)
+**NOTE**: Swift is very different from JavaScript, where omitting semicolons is [generally considered unsafe](https://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript)
 
 ## Parentheses
 
@@ -1064,7 +1089,7 @@ Likewise, do not use Xcode's ability to drag a color or an image into a source s
 
 ## Organization and Bundle Identifier
 
-Where an Xcode project is involved, the organization should be set to `Ray Wenderlich` and the Bundle Identifier set to `com.raywenderlich.TutorialName` where `TutorialName` is the name of the tutorial project.
+Where an Xcode project is involved, the organization should be set to `Kodeco` and the Bundle Identifier set to `com.yourcompany.TutorialName` where `TutorialName` is the name of the tutorial project.
 
 ![Xcode Project settings](screens/project_settings.png)
 
@@ -1074,7 +1099,7 @@ The following copyright statement should be included at the top of every source
 file:
 
 ```swift
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2023 Kodeco Inc.
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -1109,7 +1134,7 @@ file:
 
 ## Smiley Face
 
-Smiley faces are a very prominent style feature of the [raywenderlich.com](https://www.raywenderlich.com/) site! It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic. The closing square bracket `]` is used because it represents the largest smile able to be captured using ASCII art. A closing parenthesis `)` creates a half-hearted smile, and thus is not preferred.
+Smiley faces are a very prominent style feature of the [Kodeco](https://www.kodeco.com/) site! It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic. The closing square bracket `]` is used because it represents the largest smile able to be captured using ASCII art. A closing parenthesis `)` creates a half-hearted smile, and thus is not preferred.
 
 **Preferred**:
 ```
